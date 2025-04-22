@@ -109,13 +109,6 @@ app.post('/send-email', (req, res) => {
     - GitHub: https://github.com/Marcos-Gabriell
     - LinkedIn: https://www.linkedin.com/in/marcosgabriel-dev/`
     })
-    .then(() => {
-        res.status(200).send('Email enviado com sucesso!');
-    })
-    .catch((error) => {
-        console.error('Erro ao enviar email:', error);
-        res.status(500).send('Erro ao enviar email');
-    });
 });
 
 // Inicialização do servidor
