@@ -15,6 +15,14 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));  // Aplica as opções de CORS
 
+// Adicionando manualmente os headers do CORS
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');  // Permite qualquer origem
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Permite esses métodos
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); // Permite esses cabeçalhos
+    next();
+});
+
 // Middleware para interpretar o corpo da requisição
 app.use(bodyParser.json());
 
@@ -110,6 +118,7 @@ app.post('/send-email', (req, res) => {
     });
 });
 
+// Inicialização do servidor
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
 });
