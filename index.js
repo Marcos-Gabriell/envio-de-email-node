@@ -1,4 +1,3 @@
-
 const express = require('express');
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
@@ -8,8 +7,13 @@ require('dotenv').config();
 const app = express();
 const port = 3000;
 
-// 1. Configuração do CORS
-app.use(cors());  // Permite que qualquer origem faça requisição (em ambiente de desenvolvimento)
+// Configuração do CORS
+const corsOptions = {
+    origin: '*',  // Permite qualquer origem
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type'],
+};
+app.use(cors(corsOptions));  // Aplica as opções de CORS
 
 // Middleware para interpretar o corpo da requisição
 app.use(bodyParser.json());
@@ -109,4 +113,3 @@ app.post('/send-email', (req, res) => {
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
 });
-
