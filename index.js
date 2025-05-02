@@ -3,6 +3,7 @@ const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const cron = require('node-cron');
+const axios = require('axios');
 require('dotenv').config();
 
 const app = express();
@@ -161,21 +162,18 @@ app.post('/impacto360-email', (req, res) => {
     });
 });
 
-// CRON JOB - Envio de e-mail a cada 10 minutos
+// Rota de ping
+app.get('/ping', (req, res) => {
+    res.status(200).send('Pong!');
+});
+
+// CRON JOB - Mantém o servidor "vivo" com ping automático a cada 10 minutos
 cron.schedule('*/10 * * * *', async () => {
-    console.log('Executando ping automático por e-mail...');
-
     try {
-        await transport.sendMail({
-            from: 'Ping Render <ping@impacto360.com>',
-            to: process.env.EMAIL_USER,
-            subject: 'Ping automático - Servidor ativo',
-            text: 'Este é um e-mail automático enviado a cada 10 minutos para manter o servidor ativo.',
-        });
-
-        console.log('Ping enviado com sucesso!');
+      await axios.get('https://envio-de-email-portifolio.onrender.com/ping');
+        console.log('[CRON] Ping enviado com sucesso.');
     } catch (error) {
-        console.error('Erro ao enviar ping automático:', error.message);
+        console.error('[CRON] Erro ao enviar ping:', error.message);
     }
 });
 
