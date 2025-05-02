@@ -157,10 +157,11 @@ app.post('/impacto360-email', (req, res) => {
             <span class="emoji">🚀</span>Somos uma empresa movida por criatividade, estratégia e inovação.
             Nossa missão é gerar valor real para marcas que querem se destacar e impactar de verdade.
           </p>
-         <p>
-                Em breve, alguém da nossa equipe entrará em contato com você pelo número que você informou: <span class="telefone">${phone}</span>.
+            <p>
+                Em breve, alguém da nossa equipe entrará em contato com você.
                 Estamos ansiosos para entender como podemos contribuir com o seu projeto.
-          </p>
+             </p>
+
           <p class="assinatura">
             Com atitude e propósito,<br>
             Equipe Impacto360
