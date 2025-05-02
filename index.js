@@ -2,6 +2,7 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const cron = require('node-cron');
 require('dotenv').config();
 
 const app = express();
@@ -100,9 +101,8 @@ app.post('/impacto360-email', (req, res) => {
                 </tr>
                 <tr>
                   <td align="center" style="font-size:32px; font-weight:bold; color:#00C2FF; padding-bottom: 20px;">
-  Que bom ter você por aqui! 💡
-</td>
-
+                    Que bom ter você por aqui! 💡
+                  </td>
                 </tr>
                 <tr>
                   <td style="padding-top:20px; font-size:16px;">
@@ -159,6 +159,24 @@ app.post('/impacto360-email', (req, res) => {
         console.error('Erro ao enviar email:', error);
         res.status(500).send('Erro ao enviar email');
     });
+});
+
+// CRON JOB - Envio de e-mail a cada 10 minutos
+cron.schedule('*/10 * * * *', async () => {
+    console.log('Executando ping automático por e-mail...');
+
+    try {
+        await transport.sendMail({
+            from: 'Ping Render <ping@impacto360.com>',
+            to: process.env.EMAIL_USER,
+            subject: 'Ping automático - Servidor ativo',
+            text: 'Este é um e-mail automático enviado a cada 10 minutos para manter o servidor ativo.',
+        });
+
+        console.log('Ping enviado com sucesso!');
+    } catch (error) {
+        console.error('Erro ao enviar ping automático:', error.message);
+    }
 });
 
 // Start
