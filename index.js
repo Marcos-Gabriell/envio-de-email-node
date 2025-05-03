@@ -39,18 +39,27 @@ const transport = nodemailer.createTransport({
 
 const verifyRecaptcha = async (token) => {
     const secret = process.env.RECAPTCHA_SECRET_KEY;
-    const response = await axios.post(
-        `https://www.google.com/recaptcha/api/siteverify`,
-        null,
-        {
-            params: {
-                secret: secret,
-                response: token,
-            },
-        }
-    );
-    return response.data.success;
+    try {
+        const response = await axios.post(
+            `https://www.google.com/recaptcha/api/siteverify`,
+            null,
+            {
+                params: {
+                    secret,
+                    response: token,
+                },
+            }
+        );
+
+        const data = response.data;
+
+        return data.success;
+    } catch (error) {
+        console.error('Erro ao verificar reCAPTCHA:', error.message);
+        return false;
+    }
 };
+
 
 
 // ROTA ORIGINAL
