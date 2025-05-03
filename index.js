@@ -37,32 +37,7 @@ const transport = nodemailer.createTransport({
     }
 });
 
-const verifyRecaptcha = async (token) => {
-    const secret = process.env.RECAPTCHA_SECRET_KEY;
-    try {
-        const response = await axios.post(
-            `https://www.google.com/recaptcha/api/siteverify`,
-            null,
-            {
-                params: {
-                    secret,
-                    response: token,
-                },
-            }
-        );
 
-        const data = response.data;
-
-        return data.success;
-    } catch (error) {
-        console.error('Erro ao verificar reCAPTCHA:', error.message);
-        return false;
-    }
-};
-
-
-
-// ROTA ORIGINAL
 app.post('/send-email', (req, res) => {
     const { nome, email, mensagem } = req.body;
 
@@ -100,19 +75,13 @@ app.post('/send-email', (req, res) => {
     });
 });
 
-// NOVA ROTA IMPACTO360
+
 app.post('/impacto360-email', async (req, res) => {
     const { nome, email, phone, token } = req.body;
 
     if (!nome || !email || !phone || !token) {
         return res.status(400).send('Nome, e-mail, telefone e token do reCAPTCHA são obrigatórios.');
     }
-
-    const captchaValido = await verifyRecaptcha(token);
-    if (!captchaValido) {
-        return res.status(403).send('Falha na verificação do reCAPTCHA.');
-    }
-
 
     const htmlUsuario = `
     <!DOCTYPE html>
@@ -184,7 +153,8 @@ app.post('/impacto360-email', async (req, res) => {
       </body>
     </html>`;
 
-    // Envia para o usuário
+
+
     const envioUsuario = transport.sendMail({
         from: "Impacto360 <impacto360@email.com>",
         to: email,
@@ -199,7 +169,7 @@ app.post('/impacto360-email', async (req, res) => {
         ]
     });
 
-    // Envia para o admin
+
     const envioAdmin = transport.sendMail({
         from: "Impacto360 <impacto360@email.com>",
         to: process.env.EMAIL_USER, // Seu e-mail de admin
@@ -216,7 +186,7 @@ app.post('/impacto360-email', async (req, res) => {
 });
 
 
-// NOVA ROTA FEEDBACK
+
 app.post('/feedback-email', (req, res) => {
   const {nome, email, mensagem } = req.body;
 
@@ -226,7 +196,7 @@ app.post('/feedback-email', (req, res) => {
 
   const mensagemFormatada = mensagem.replace(/\n/g, '<br>');
 
-  // HTML para o usuário
+  
   const htmlUsuario = `
   <!DOCTYPE html>
   <html lang="pt-BR">
