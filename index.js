@@ -37,6 +37,22 @@ const transport = nodemailer.createTransport({
     }
 });
 
+const verifyRecaptcha = async (token) => {
+    const secret = process.env.RECAPTCHA_SECRET_KEY;
+    const response = await axios.post(
+        `https://www.google.com/recaptcha/api/siteverify`,
+        null,
+        {
+            params: {
+                secret: secret,
+                response: token,
+            },
+        }
+    );
+    return response.data.success;
+};
+
+
 // ROTA ORIGINAL
 app.post('/send-email', (req, res) => {
     const { nome, email, mensagem } = req.body;
@@ -76,12 +92,18 @@ app.post('/send-email', (req, res) => {
 });
 
 // NOVA ROTA IMPACTO360
-app.post('/impacto360-email', (req, res) => {
-    const { nome, email, phone } = req.body;
+app.post('/impacto360-email', async (req, res) => {
+    const { nome, email, phone, token } = req.body;
 
-    if (!nome || !email || !phone) {
-        return res.status(400).send('Nome, e-mail e telefone são obrigatórios');
+    if (!nome || !email || !phone || !token) {
+        return res.status(400).send('Nome, e-mail, telefone e token do reCAPTCHA são obrigatórios.');
     }
+
+    const captchaValido = await verifyRecaptcha(token);
+    if (!captchaValido) {
+        return res.status(403).send('Falha na verificação do reCAPTCHA.');
+    }
+
 
     const htmlUsuario = `
     <!DOCTYPE html>
