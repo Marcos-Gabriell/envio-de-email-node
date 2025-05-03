@@ -77,10 +77,10 @@ app.post('/send-email', (req, res) => {
 
 
 app.post('/impacto360-email', async (req, res) => {
-    const { nome, email, phone, token } = req.body;
+    const { nome, email, phone } = req.body;
 
-    if (!nome || !email || !phone || !token) {
-        return res.status(400).send('Nome, e-mail, telefone e token do reCAPTCHA são obrigatórios.');
+    if (!nome || !email || !phone) {
+        return res.status(400).send('Nome, e-mail e telefone.');
     }
 
     const htmlUsuario = `
@@ -196,7 +196,7 @@ app.post('/feedback-email', (req, res) => {
 
   const mensagemFormatada = mensagem.replace(/\n/g, '<br>');
 
-  
+
   const htmlUsuario = `
   <!DOCTYPE html>
   <html lang="pt-BR">
