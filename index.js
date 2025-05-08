@@ -38,6 +38,16 @@ const transport = nodemailer.createTransport({
 });
 
 
+const transportMarcos = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  auth: {
+      user: process.env.EMAIL_USER2,
+      pass: process.env.EMAIL_PASS2,
+  }
+});
+
 app.post('/send-email', (req, res) => {
     const { nome, email, mensagem } = req.body;
 
@@ -47,7 +57,7 @@ app.post('/send-email', (req, res) => {
 
     const mensagemFormatada = mensagem.replace(/\n/g, "<br>");
 
-    transport.sendMail({
+    transportMarcos.sendMail({
         from: "Marcos Gabriel <marcosgabrielemail3@gmail.com>",
         to: email,
         subject: 'Mensagem recebida!',
