@@ -89,9 +89,18 @@ app.post('/send-email', (req, res) => {
 app.post('/impacto360-email', async (req, res) => {
     const { nome, email, phone } = req.body;
 
-    if (!nome || !email || !phone) {
-        return res.status(400).send('Nome, e-mail e telefone.');
-    }
+
+    if (!nome || nome.length < 3 || nome.length > 15) {
+    return res.status(400).send('Nome deve ter entre 3 e 15 caracteres.');
+  }
+
+  if (!email) {
+    return res.status(400).send('E-mail é obrigatório.');
+  }
+
+  if (!phone || !/^\d{11}$/.test(phone)) {
+    return res.status(400).send('Telefone deve conter exatamente 11 dígitos numéricos (apenas números).');
+  }
 
     const htmlUsuario = `
     <!DOCTYPE html>
@@ -200,9 +209,18 @@ app.post('/impacto360-email', async (req, res) => {
 app.post('/feedback-email', (req, res) => {
   const {nome, email, mensagem } = req.body;
 
-  if (!nome || !email || !mensagem) {
-      return res.status(400).send('Nome, Email e mensagem são obrigatórios');
+   if (!nome || nome.length < 3 || nome.length > 15) {
+    return res.status(400).send('Nome deve ter entre 3 e 15 caracteres.');
   }
+
+  if (!email) {
+    return res.status(400).send('E-mail é obrigatório.');
+  }
+
+  if (!mensagem || mensagem.length < 5 || mensagem.length > 200) {
+    return res.status(400).send('Mensagem deve ter entre 5 e 200 caracteres.');
+  }
+
 
   const mensagemFormatada = mensagem.replace(/\n/g, '<br>');
 
