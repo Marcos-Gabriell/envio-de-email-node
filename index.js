@@ -126,7 +126,7 @@ app.post('/impacto360-email', async (req, res) => {
                 </tr>
                 <tr>
                   <td style="padding-top:20px; font-size:16px;">
-                    👋 Olá, <strong>${nome}</strong>!
+                    👋 Olá, <strong>${nome}</strong>
                   </td>
                 </tr>
                 <tr>
@@ -248,7 +248,7 @@ app.post('/feedback-email', (req, res) => {
                           </td>
                       </tr>
                       <tr>
-                          <td style="font-size:16px; line-height:1.6;">👋 Olá, <strong>${nome}</strong>!</td>
+                          <td style="font-size:16px; line-height:1.6;">👋 Olá, <strong>${nome}</strong></td>
                       </tr>
                       <tr>
                           <td style="font-size:16px; line-height:1.6; padding-top:10px;">
