@@ -49,11 +49,25 @@ const transportMarcos = nodemailer.createTransport({
 });
 
 app.post('/send-email', (req, res) => {
-    const { nome, email, mensagem } = req.body;
+    const { nome, email, phone, mensagem } = req.body;
 
-    if (!nome || !email || !mensagem) {
-        return res.status(400).send('Nome, email e mensagem são obrigatórios');
-    }
+
+    if (!nome || nome.length < 3 || nome.length > 15) {
+    return res.status(400).send('Nome deve ter entre 3 e 15 caracteres.');
+  }
+
+  if (!email) {
+    return res.status(400).send('E-mail é obrigatório.');
+  }
+
+  if (!phone || !/^\d{11}$/.test(phone)) {
+    return res.status(400).send('Telefone deve conter exatamente 11 dígitos numéricos (apenas números).');
+  }
+
+    if (!mensagem || mensagem.length < 5 || mensagem.length > 200) {
+    return res.status(400).send('Mensagem deve ter entre 5 e 200 caracteres.');
+  }
+
 
     const mensagemFormatada = mensagem.replace(/\n/g, "<br>");
 
