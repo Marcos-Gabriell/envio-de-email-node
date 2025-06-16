@@ -48,56 +48,81 @@ const transportMarcos = nodemailer.createTransport({
   }
 });
 
+
 app.post('/send-email', (req, res) => {
-    const { nome, email, phone, mensagem } = req.body;
+  const { nome, email, phone, mensagem } = req.body;
 
-
-    if (!nome || nome.length < 3 || nome.length > 15) {
-    return res.status(400).send('Nome deve ter entre 3 e 15 caracteres.');
+  // Validações
+  if (!nome || nome.length < 3 || nome.length > 15) {
+    return res.status(400).json({ error: 'O nome deve conter entre 3 e 15 caracteres.' });
   }
 
   if (!email) {
-    return res.status(400).send('E-mail é obrigatório.');
+    return res.status(400).json({ error: 'O e-mail é obrigatório.' });
   }
 
   if (!phone || !/^\d{11}$/.test(phone)) {
-    return res.status(400).send('Telefone deve conter exatamente 11 dígitos numéricos (apenas números).');
+    return res.status(400).json({ error: 'O telefone deve conter exatamente 11 dígitos numéricos (somente números).' });
   }
 
-    if (!mensagem || mensagem.length < 5 || mensagem.length > 200) {
-    return res.status(400).send('Mensagem deve ter entre 5 e 200 caracteres.');
+  if (!mensagem || mensagem.length < 5 || mensagem.length > 200) {
+    return res.status(400).json({ error: 'A mensagem deve conter entre 5 e 200 caracteres.' });
   }
 
+  const mensagemFormatada = mensagem.replace(/\n/g, '<br>');
 
-    const mensagemFormatada = mensagem.replace(/\n/g, "<br>");
+  const mailOptions = {
+    from: 'Marcos Gabriel <marcosgabrielemail3@gmail.com>',
+    to: email,
+    subject: 'Mensagem recebida!',
+    html: `
+      <html>
+        <body style="margin:0; padding:0; font-family: 'Arial', sans-serif; background-color: #f9f9f9;">
+          <div style="max-width: 600px; margin: 30px auto; background-color: #fff; border-radius: 10px; padding: 30px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); border-top: 8px solid #0038A8;">
+            <h2 style="color: #0038A8;">Olá, ${nome}!</h2>
+            <p style="color: #333;">Que bom receber sua mensagem! 💬</p>
+            <p style="color: #555;">Você escreveu:</p>
+            <blockquote style="border-left: 5px solid #0038A8; background-color: #f0f0f0; padding: 15px; margin: 15px 0; border-radius: 6px; color: #444;">
+              ${mensagemFormatada}
+            </blockquote>
+            <p style="color: #333;">Em breve responderei com toda atenção que você merece.</p>
+            <p style="color: #333;">Enquanto isso, fique à vontade para me acompanhar nas redes sociais:</p>
+            <ul style="list-style: none; padding: 0;">
+              <li><a href="https://github.com/Marcos-Gabriell" target="_blank" style="color: #0038A8; text-decoration: none;">🔗 GitHub – Veja meus projetos</a></li>
+              <li><a href="https://www.linkedin.com/in/marcosgabriel-dev/" target="_blank" style="color: #0038A8; text-decoration: none;">🔗 LinkedIn – Conheça minha trajetória</a></li>
+            </ul>
+            <p style="margin-top: 25px; color: #7B00FF7B00FF;">Muito obrigado pela confiança e pelo seu tempo!</p>
+            <p style="color: #0038A8;"><strong>Com carinho,</strong><br><strong>Marcos Gabriel</strong></p>
+          </div>
+        </body>
+      </html>
+    `,
+    text: `Olá, ${nome}!
 
-    transportMarcos.sendMail({
-        from: "Marcos Gabriel <marcosgabrielemail3@gmail.com>",
-        to: email,
-        subject: 'Mensagem recebida!',
-        html: `
-            <html>
-                <body>
-                    <div style="font-family: Arial; padding: 20px;">
-                        <h2>Olá, ${nome}!</h2>
-                        <p>Recebemos sua mensagem: <strong>"${mensagemFormatada}"</strong></p>
-                        <p>Em breve entraremos em contato com você.</p>
-                        <p>
-                            <a href="https://github.com/Marcos-Gabriell">GitHub</a> |
-                            <a href="https://www.linkedin.com/in/marcosgabriel-dev/">LinkedIn</a>
-                        </p>
-                        <p>Obrigado!<br><strong>Marcos Gabriel</strong></p>
-                    </div>
-                </body>
-            </html>`,
-        text: `Olá, ${nome}!\n\nRecebemos sua mensagem:\n"${mensagem}"\n\nEm breve entraremos em contato com você.`
-    })
-    .then(() => res.status(200).send('Email enviado com sucesso!'))
-    .catch((error) => {
-        console.error('Erro ao enviar email:', error);
-        res.status(500).send('Erro ao enviar email');
+Muito obrigado por entrar em contato! 😊
+
+Recebi a sua mensagem:
+"${mensagem}"
+
+Em breve responderei com toda atenção que você merece.
+
+Enquanto isso, sinta-se à vontade para conhecer mais sobre mim:
+
+🔗 GitHub: https://github.com/Marcos-Gabriell
+🔗 LinkedIn: https://www.linkedin.com/in/marcosgabriel-dev/
+
+Com carinho,
+Marcos Gabriel`
+  };
+
+  transportMarcos.sendMail(mailOptions)
+    .then(() => res.status(200).json({ message: 'E-mail enviado com sucesso!' }))
+    .catch(error => {
+      console.error('Erro ao enviar e-mail:', error);
+      res.status(500).json({ error: 'Erro ao enviar o e-mail. Tente novamente mais tarde.' });
     });
 });
+
 
 
 app.post('/impacto360-email', async (req, res) => {
