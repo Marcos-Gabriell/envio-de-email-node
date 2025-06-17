@@ -9,7 +9,7 @@ require('dotenv').config();
 const app = express();
 const port = 3001;
 
-// CORS Config
+
 const corsOptions = {
     origin: '*',
     methods: ['GET', 'POST'],
@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
-// Configurar o transporte
+
 const transport = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -52,7 +52,6 @@ const transportMarcos = nodemailer.createTransport({
 app.post('/send-email', (req, res) => {
   const { nome, email, phone, mensagem } = req.body;
 
-  // Validações
   if (!nome || nome.length < 3 || nome.length > 15) {
     return res.status(400).json({ error: 'O nome deve conter entre 3 e 15 caracteres.' });
   }
@@ -71,7 +70,8 @@ app.post('/send-email', (req, res) => {
 
   const mensagemFormatada = mensagem.replace(/\n/g, '<br>');
 
-  const mailOptions = {
+
+  const mailOptionsUsuario = {
     from: 'Marcos Gabriel <marcosgabrielemail3@gmail.com>',
     to: email,
     subject: 'Mensagem recebida!',
@@ -91,7 +91,7 @@ app.post('/send-email', (req, res) => {
               <li><a href="https://github.com/Marcos-Gabriell" target="_blank" style="color: #0038A8; text-decoration: none;">🔗 GitHub – Veja meus projetos</a></li>
               <li><a href="https://www.linkedin.com/in/marcosgabriel-dev/" target="_blank" style="color: #0038A8; text-decoration: none;">🔗 LinkedIn – Conheça minha trajetória</a></li>
             </ul>
-            <p style="margin-top: 25px; color: #7B00FF7B00FF;">Muito obrigado pela confiança e pelo seu tempo!</p>
+            <p style="margin-top: 25px; color: #7B00FF;">Muito obrigado pela confiança e pelo seu tempo!</p>
             <p style="color: #0038A8;"><strong>Com carinho,</strong><br><strong>Marcos Gabriel</strong></p>
           </div>
         </body>
@@ -115,11 +115,36 @@ Com carinho,
 Marcos Gabriel`
   };
 
-  transportMarcos.sendMail(mailOptions)
-    .then(() => res.status(200).json({ message: 'E-mail enviado com sucesso!' }))
+  // Email para o Admin
+  const mailOptionsAdmin = {
+    from: 'Marcos Gabriel <marcosgabrielemail3@gmail.com>',
+    to: 'marcosgabriel79355@gmail.com',  // Email do admin
+    subject: '📥 Nova mensagem recebida via Portfólio',
+    html: `
+      <html>
+        <body style="font-family: Arial, sans-serif; padding: 20px;">
+          <h2>📥 Nova mensagem recebida no formulário de contato</h2>
+          <p><strong>Nome:</strong> ${nome}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Telefone:</strong> ${phone}</p>
+          <p><strong>Mensagem:</strong></p>
+          <div style="background-color: #f0f0f0; padding: 15px; border-left: 4px solid #0038A8; border-radius: 6px;">
+            ${mensagemFormatada}
+          </div>
+          <p style="margin-top: 20px; color: #555;">Este é um e-mail automático gerado pelo site Portfólio.</p>
+        </body>
+      </html>
+    `
+  };
+
+  Promise.all([
+    transportMarcos.sendMail(mailOptionsUsuario),
+    transportMarcos.sendMail(mailOptionsAdmin)
+  ])
+    .then(() => res.status(200).json({ message: 'E-mails enviados com sucesso!' }))
     .catch(error => {
-      console.error('Erro ao enviar e-mail:', error);
-      res.status(500).json({ error: 'Erro ao enviar o e-mail. Tente novamente mais tarde.' });
+      console.error('Erro ao enviar e-mails:', error);
+      res.status(500).json({ error: 'Erro ao enviar os e-mails. Tente novamente mais tarde.' });
     });
 });
 
@@ -326,7 +351,7 @@ app.post('/feedback-email', (req, res) => {
   </body>
   </html>`;
 
-  // HTML para o admin
+
   const htmlAdmin = `
   <html>
     <body style="font-family: Arial, sans-serif; padding: 20px;">
@@ -342,7 +367,7 @@ app.post('/feedback-email', (req, res) => {
   </html>`;
 
 
-  // E-mail para o usuário
+
   const emailParaUsuario = transport.sendMail({
       from: 'Impacto360 <impacto360@email.com>',
       to: email,
@@ -357,7 +382,7 @@ app.post('/feedback-email', (req, res) => {
       ]
   });
 
-  // E-mail para o admin
+
   const emailParaAdmin = transport.sendMail({
       from: 'Impacto360 <impacto360@email.com>',
       to: process.env.EMAIL_USER, // Substitua pelo e-mail real do admin
@@ -365,7 +390,7 @@ app.post('/feedback-email', (req, res) => {
       html: htmlAdmin
   });
 
-  // Envia ambos e responde
+
   Promise.all([emailParaUsuario, emailParaAdmin])
       .then(() => res.status(200).send('Feedback enviado com sucesso!'))
       .catch((error) => {
@@ -375,12 +400,12 @@ app.post('/feedback-email', (req, res) => {
 });
 
 
-// Rota de ping
+
 app.get('/ping', (req, res) => {
     res.status(200).send('Pong!');
 });
 
-// CRON JOB - Mantém o servidor "vivo" com ping automático a cada 10 minutos
+
 cron.schedule('*/10 * * * *', async () => {
   try {
     await axios.get('https://envio-de-email-portifolio.onrender.com/ping');
@@ -390,7 +415,7 @@ cron.schedule('*/10 * * * *', async () => {
   }
 });
 
-// Start
+
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
 });
