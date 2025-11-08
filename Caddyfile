@@ -1,0 +1,4 @@
+api.SEUDOMINIO.com {
+  encode gzip
+  reverse_proxy app:3001
+}

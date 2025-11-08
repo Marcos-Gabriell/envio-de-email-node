@@ -1,0 +1,38 @@
+services:
+  app:
+    build: .
+    container_name: notify_api
+    restart: unless-stopped
+    env_file:
+      - .env        # <-- na VPS troque pelo arquivo real
+    expose:
+      - "3001"
+    healthcheck:
+      test: ["CMD","node","-e","require('http').get('http://localhost:3001/health',r=>process.exit(r.statusCode===200?0:1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    networks: [web]
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: reverse_proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: [app]
+    networks: [web]
+
+networks:
+  web:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:

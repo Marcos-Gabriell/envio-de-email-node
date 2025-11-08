@@ -345,4 +345,4 @@ if (process.env.PING_URL) {
    ========================= */
 app.listen(port, () => {
   console.log(`🚀 Servidor rodando na porta ${port}`);
-});
+});Dockerfile
