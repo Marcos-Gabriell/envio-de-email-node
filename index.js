@@ -23,14 +23,34 @@ app.use(cors({
   allowedHeaders: ['Content-Type'],
 }));
 app.use(express.json());
-app.set('trust proxy', 1); // Necessário se estiver atrás de um proxy (Heroku, Render)
+
+// ✅ Confiar no proxy para capturar o IP real (Caddy/NGINX/Cloudflare/etc)
+app.set('trust proxy', true);
+
+/* =========================
+   OBTÉM IP REAL DO CLIENTE
+   ========================= */
+function getClientIp(req) {
+  const xff = req.headers['x-forwarded-for'];
+  const ip =
+    req.headers['cf-connecting-ip'] ||     // Cloudflare
+    req.headers['x-real-ip'] ||            // Nginx/Caddy
+    (xff && xff.split(',')[0].trim()) ||   // Primeiro IP da cadeia
+    req.ip ||
+    req.socket?.remoteAddress ||
+    '';
+  return ip.replace(/^::ffff:/, ''); // normaliza IPv4 mapeado em IPv6
+}
 
 /* =========================
    LIMITADOR DE REQUISIÇÕES (SEGURANÇA)
    ========================= */
+// ⚠️ Mantive as mensagens exatamente como estavam.
+// Agora a chave de limite é o IP real do cliente.
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos
   max: 10, // Limita cada IP a 10 requisições por janela
+  keyGenerator: getClientIp, // 🔥 usa o IP real
   message: { error: 'Muitas tentativas de envio. Tente novamente em 15 minutos.' },
   standardHeaders: true,
   legacyHeaders: false,
@@ -345,4 +365,4 @@ if (process.env.PING_URL) {
    ========================= */
 app.listen(port, () => {
   console.log(`🚀 Servidor rodando na porta ${port}`);
-});Dockerfile
+});

@@ -1,4 +1,4 @@
-api.SEUDOMINIO.com {
+api.marcosgabriell.com.br {
   encode gzip
   reverse_proxy app:3001
 }
