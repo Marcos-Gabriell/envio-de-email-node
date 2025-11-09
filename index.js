@@ -59,7 +59,7 @@ const apiLimiter = rateLimit({
 /* =========================
    CONSTANTES DE CONTATO
    ========================= */
-const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'marcosgabriel79355@gmail.com';
+const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'Marcosgabriel79355@gmail.com';
 const CONTACT_WHATSAPP_E164 = process.env.CONTACT_WHATSAPP_E164 || '5574988319037';
 const CONTACT_WHATSAPP_HUMAN = process.env.CONTACT_WHATSAPP_HUMAN || '(74) 98831-9037';
 const FROM_NAME = process.env.FROM_NAME || 'Marcos Gabriel';
@@ -73,9 +73,13 @@ const transport = nodemailer.createTransport({
   port: Number(process.env.EMAIL_PORT || 465),
   secure: String(process.env.EMAIL_SECURE ?? 'true') === 'true',
   auth: {
-    user: process.env.EMAIL_USER, // ex: marcosgabrielemail3@gmail.com
+    user: process.env.EMAIL_USER, // ex: Marcosgabrielemail3@gmail.com
     pass: process.env.EMAIL_PASS, // senha de app do Gmail
   },
+
+  connectionTimeout: 10000,
+  greetingTimeout: 10000,
+  socketTimeout: 15000
 });
 
 transport.verify()
@@ -240,7 +244,7 @@ app.post('/send-email', apiLimiter, async (req, res) => {
 
     await Promise.all([
       transport.sendMail({
-        from: `${FROM_NAME} <${process.env.EMAIL_USER}>`,
+          from: `Marcos | Portfólio <${process.env.EMAIL_USER}>`,
         to: email,
         subject: '📬 Mensagem recebida — já vou te retornar!',
         headers: { 'X-Auto-Response-Suppress': 'OOF, AutoReply' },
@@ -248,7 +252,7 @@ app.post('/send-email', apiLimiter, async (req, res) => {
         text: `Olá, ${nome}!\n\nRecebi sua mensagem e vou te responder em breve pelo WhatsApp ou e-mail.\n\n"${mensagem}"\n\nContatos: ${CONTACT_EMAIL} • https://wa.me/${CONTACT_WHATSAPP_E164}\n\n— Marcos Gabriel`,
       }),
       transport.sendMail({
-        from: `${FROM_NAME} <${process.env.EMAIL_USER}>`,
+        from: `Portfólio | Bot Feedback <${process.env.EMAIL_USER}>`,
         to: ADMIN_EMAIL,
         subject: '📨 Nova mensagem — Portfólio',
         html: htmlAdmin,
@@ -321,7 +325,7 @@ app.post('/send-feedback', apiLimiter, async (req, res) => {
 
     await Promise.all([
       transport.sendMail({
-        from: `${FROM_NAME} <${process.env.EMAIL_USER}>`,
+         from: `Marcos | Portfólio <${process.env.EMAIL_USER}>`,
         to: email,
         subject: '💙 Obrigado pelo seu feedback!',
         html: htmlUser,
