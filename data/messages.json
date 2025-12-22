@@ -1,0 +1,148 @@
+{
+  "verses": [
+    {
+      "id": "v-001",
+      "ref": "Isaías 41:10-13",
+      "text": "Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus. Eu te fortaleço, eu te ajudo e eu te sustento com a destra da minha justiça. Pois eu, o Senhor teu Deus, te tomo pela mão direita e te digo: Não temas, eu te ajudo."
+    },
+    {
+      "id": "v-002",
+      "ref": "Salmos 46:1-3,10",
+      "text": "Deus é o nosso refúgio e fortaleza, socorro bem presente na angústia. Portanto, não temeremos, ainda que a terra se transtorne e os montes se abalem no seio dos mares. Aquietai-vos e sabei que eu sou Deus."
+    },
+    {
+      "id": "v-003",
+      "ref": "Lamentações 3:22-26,31-33",
+      "text": "As misericórdias do Senhor são a causa de não sermos consumidos, porque as suas misericórdias não têm fim. Renovam-se a cada manhã; grande é a tua fidelidade. Bom é esperar em silêncio pela salvação do Senhor, porque o Senhor não rejeita para sempre."
+    },
+    {
+      "id": "v-004",
+      "ref": "Filipenses 4:6-9",
+      "text": "Não andeis ansiosos por coisa alguma; antes, em tudo, sejam conhecidas diante de Deus as vossas petições, pela oração e súplica, com ações de graças. E a paz de Deus, que excede todo entendimento, guardará os vossos corações e a vossa mente."
+    },
+    {
+      "id": "v-005",
+      "ref": "Salmos 37:23-26",
+      "text": "Os passos de um homem são confirmados pelo Senhor; ainda que caia, não ficará prostrado, porque o Senhor o sustém com a sua mão. Nunca vi o justo desamparado."
+    },
+    {
+      "id": "v-006",
+      "ref": "Mateus 11:28-30",
+      "text": "Vinde a mim todos os que estais cansados e sobrecarregados, e eu vos aliviarei. Tomai sobre vós o meu jugo, porque sou manso e humilde de coração; e encontrareis descanso para as vossas almas."
+    },
+    {
+      "id": "v-007",
+      "ref": "Romanos 8:18,28,31",
+      "text": "Porque para mim tenho por certo que os sofrimentos do tempo presente não podem ser comparados com a glória que em nós há de ser revelada. Sabemos que todas as coisas cooperam para o bem daqueles que amam a Deus."
+    },
+    {
+      "id": "v-008",
+      "ref": "Isaías 40:29-31",
+      "text": "Ele fortalece o cansado e multiplica as forças ao que não tem nenhum vigor. Os que esperam no Senhor renovarão as forças; subirão com asas como águias."
+    },
+    {
+      "id": "v-009",
+      "ref": "Salmos 23:1-6",
+      "text": "O Senhor é o meu pastor; nada me faltará. Ainda que eu ande pelo vale da sombra da morte, não temerei mal algum, porque tu estás comigo. Certamente que a bondade e a misericórdia me seguirão todos os dias da minha vida."
+    },
+    {
+      "id": "v-010",
+      "ref": "João 16:33",
+      "text": "No mundo tereis aflições, mas tende bom ânimo; eu venci o mundo."
+    },
+    {
+      "id": "v-011",
+      "ref": "Salmos 121:1-8",
+      "text": "Elevo os meus olhos para os montes; de onde me vem o socorro? O meu socorro vem do Senhor, que fez o céu e a terra. O Senhor guardará a tua saída e a tua entrada, desde agora e para sempre."
+    },
+    {
+      "id": "v-012",
+      "ref": "Hebreus 12:1-3",
+      "text": "Livremo-nos de todo peso e do pecado que nos envolve e corramos com perseverança a carreira que nos está proposta, olhando firmemente para Jesus."
+    },
+    {
+      "id": "v-013",
+      "ref": "Salmos 55:22",
+      "text": "Entrega o teu fardo ao Senhor, e ele te susterá; jamais permitirá que o justo seja abalado."
+    },
+    {
+      "id": "v-014",
+      "ref": "Isaías 43:1-2",
+      "text": "Não temas, porque eu te remi; chamei-te pelo teu nome, tu és meu. Quando passares pelas águas, eu serei contigo."
+    },
+    {
+      "id": "v-015",
+      "ref": "Salmos 27:13-14",
+      "text": "Creio que verei a bondade do Senhor na terra dos viventes. Espera no Senhor, anima-te, e ele fortalecerá o teu coração."
+    }
+  ],
+
+  "morning": [
+    {
+      "id": "m-001",
+      "text": "Bom dia, Marcos ☀️ Hoje não precisa vencer tudo. Precisa só começar e não parar."
+    },
+    {
+      "id": "m-002",
+      "text": "Bom dia, Marcos. Mesmo sem vontade, faz o primeiro movimento. Deus honra constância."
+    },
+    {
+      "id": "m-003",
+      "text": "Bom dia. O básico bem feito hoje constrói o extraordinário de amanhã."
+    },
+    {
+      "id": "m-004",
+      "text": "Bom dia, Marcos. Não se compara. Não se apressa. Apenas avança."
+    },
+    {
+      "id": "m-005",
+      "text": "Bom dia! Deus te deu mais um dia porque você ainda tem propósito."
+    }
+  ],
+
+  "midday": [
+    {
+      "id": "d-001",
+      "text": "Meio do dia. Respira, ajusta a rota e continua. Você ainda está no jogo."
+    },
+    {
+      "id": "d-002",
+      "text": "Se travar, faz só o próximo passo. Só ele."
+    },
+    {
+      "id": "d-003",
+      "text": "O dia não acabou. Dá pra virar."
+    },
+    {
+      "id": "d-004",
+      "text": "Constância vence emoção. Continua."
+    },
+    {
+      "id": "d-005",
+      "text": "Mesmo devagar, você está indo."
+    }
+  ],
+
+  "night": [
+    {
+      "id": "n-001",
+      "text": "Boa noite 🌙 Entrega o que pesou hoje. Amanhã Deus renova as forças."
+    },
+    {
+      "id": "n-002",
+      "text": "Você fez o que deu hoje. Isso é suficiente."
+    },
+    {
+      "id": "n-003",
+      "text": "Descansar também é confiar."
+    },
+    {
+      "id": "n-004",
+      "text": "Um dia ruim não cancela um propósito grande."
+    },
+    {
+      "id": "n-005",
+      "text": "Boa noite, Marcos. Deus continua trabalhando enquanto você dorme."
+    }
+  ]
+}

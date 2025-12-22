@@ -1,11 +1,10 @@
-#!/usr/bin/env bash
 set -euo pipefail
 
 APP_DIR="/srv/notify"
 REPO_URL="https://github.com/Marcos-Gabriell/envio-de-email-node"
 ROOT_DOMAIN="marcosgabriell.com.br"
 API_DOMAIN="api.${ROOT_DOMAIN}"
-COMPOSE_FILE="docker-compose.prod.yml"   # usa Caddy por padrão
+COMPOSE_FILE="docker-compose.prod.yml"   
 
 # 1) Preparos
 sudo apt update -y
